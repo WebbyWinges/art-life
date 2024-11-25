@@ -2,7 +2,7 @@ import { GreenStick } from "../ui/icons";
 
 const Spec = () => {
   return (
-    <div className="flex flex-col p-24 gap-8">
+    <div className="flex flex-col mt-[122px] px-[90px] gap-8">
       <span
         style={{
           fontWeight: 400,
@@ -21,7 +21,8 @@ const Spec = () => {
         className="font-montserrat leading-[97.52px]"
       >
         Специализируемся
-        <p>на шаблонах приложений</p> <p>для Android​</p>
+        <p>на шаблонах приложений</p>
+        <p>для Android​</p>
       </span>
       <span
         style={{
