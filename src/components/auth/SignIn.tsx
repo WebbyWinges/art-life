@@ -24,7 +24,7 @@ const SignIn = () => {
     if ((_id: string) => res) {
       isAuth.setIsAuth(true);
       navigate("/main/1");
-      localStorage.setItem("user", JSON.stringify(res))
+      localStorage.setItem("user", JSON.stringify(res));
     }
     setEmail("");
     setPassword("");
@@ -44,29 +44,44 @@ const SignIn = () => {
         onSubmit={handleSubmit}
         className="w-96 bg-white rounded-3xl flex flex-col p-6 gap-5"
       >
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email">Почта</label>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
+        <div className="flex flex-col gap-2 ">
+          <label
+            htmlFor="email"
+            className="text-[20px] font-400 font-montserrat leading-[24.38px]"
+          >
+            Почта
+          </label>
+          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="password">Пароль</label>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
+          <label
+            htmlFor="password"
+            className="text-[20px] font-400 font-montserrat leading-[24.38px]"
+          >
+            Пароль
+          </label>
+          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+            <Input
+              type="password"
+              id="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              className="border-solid border-2 border-indigo-600"
+            />
+          </div>
         </div>
         <Button
           type="submit"
-          className="flex justify-center items-center p-6 rounded-2xl bg-[#10C3EB]"
+          className="flex justify-center items-center p-6 rounded-[10px] bg-[#10C3EB]"
         >
           <span
             style={{
