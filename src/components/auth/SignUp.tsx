@@ -21,7 +21,7 @@ const SignUp = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setPassError(prev => !prev)
+      setPassError(prev => !prev);
       return;
     }
 
@@ -62,50 +62,70 @@ const SignUp = () => {
       >
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Имя</label>
-          <Input
-            type="text"
-            id="name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            required
-          />
+          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+            <Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Почта</label>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onError={() => console.log("err")}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          {passError ? <div>
-            <span className="text-red-400">Пароли не совпадают</span>
-          </div> : <label htmlFor="password">Пароль</label>}
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            className={passError ? "border-2 border-solid border-red-400" : ""}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-        {passError ? <div>
-            <span className="text-red-400">Пароли не совпадают</span>
-          </div> : <label htmlFor="password">Подтверждени пароля</label>}
-          <Input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            className={passError ? "border-2 border-solid border-red-400" : ""}
-            onChange={e => setConfirmPassword(e.target.value)}
-            required
-          />
+          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              onError={() => console.log("err")}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            {passError ? (
+              <div>
+                <span className="text-red-400">Пароли не совпадают</span>
+              </div>
+            ) : (
+              <label htmlFor="password">Пароль</label>
+            )}
+            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                className={
+                  passError ? "border-2 border-solid border-red-400" : ""
+                }
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            {passError ? (
+              <div>
+                <span className="text-red-400">Пароли не совпадают</span>
+              </div>
+            ) : (
+              <label htmlFor="password">Подтверждени пароля</label>
+            )}
+            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+              <Input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                className={
+                  passError ? "border-2 border-solid border-red-400" : ""
+                }
+                onChange={e => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+          </div>
         </div>
         <Button
           type="submit"
