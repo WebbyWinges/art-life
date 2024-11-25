@@ -4,9 +4,9 @@ import fond from "../../assets/fond.png";
 
 const Create = () => {
   return (
-    <div className="flex flex-col pt-0 gap-[78px] pb-[110px] font-montserratALternates">
+    <section className="flex flex-col pt-0 gap-[80px] pb-[80px] font-montserratALternates">
       <div
-        className="flex flex-col gap-3 p-6 h-[644px] rounded-3xl w-full"
+        className="flex flex-col gap-6 px-[86px] py-[56px]  rounded-3xl w-full"
         style={{
           backgroundImage: `url(${image})`,
           backgroundSize: "cover",
@@ -59,7 +59,7 @@ const Create = () => {
             мобильного приложения
           </p>
         </div>
-        <Button className="max-w-xs py-10 px-52 rounded-3xl">
+        <Button className="max-w-xs mt-[40px] py-10 px-52 rounded-3xl">
           <span
             style={{
               fontWeight: 400,
@@ -88,7 +88,7 @@ const Create = () => {
           предпринимательства»
         </span>
       </div>
-    </div>
+    </section>
   );
 };
 

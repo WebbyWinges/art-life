@@ -23,17 +23,17 @@ export const AccordionComponent = ({
   return (
     <Accordion
       type="single"
-      className="flex w-full bg-[#f3f4f6]  px-4 py-2"
+      className="flex w-full bg-[#f3f4f6] rounded-[20px] px-4 py-2"
       collapsible
     >
       <AccordionItem
         value="item-1"
-        className="flex flex-col gap-[18px] w-full sm:max-w-full "
+        className="flex flex-col rounded-[20px] gap-[18px] w-full sm:max-w-full "
       >
         <div className=" ">
           <AccordionTrigger
             onClick={toggleOpen}
-            className="flex flex-row justify-between items-center w-full"
+            className="flex flex-row rounded-[20px] justify-between items-center w-full"
           >
             <div className="flex flex-row justify-between items-center w-full ">
               <div className="text-[24px] leading-[30px] text-[#000000] font-[700] max-w-full font-monserat">

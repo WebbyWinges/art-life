@@ -2,7 +2,7 @@ import { GreenStick } from "../ui/icons";
 
 const Spec = () => {
   return (
-    <div className="flex flex-col mt-[122px] px-[90px] gap-8">
+    <section className="flex flex-col mt-[80px] pb-[80px] px-[90px] gap-8">
       <span
         style={{
           fontWeight: 400,
@@ -18,11 +18,9 @@ const Spec = () => {
           fontWeight: 700,
           fontSize: 80,
         }}
-        className="font-montserrat leading-[97.52px]"
+        className="font-montserrat leading-[74px]"
       >
-        Специализируемся
-        <p>на шаблонах приложений</p>
-        <p>для Android​</p>
+        Специализируемся на шаблонах приложений для Android
       </span>
       <span
         style={{
@@ -32,7 +30,7 @@ const Spec = () => {
       >
         Наши ценности:
       </span>
-      <div className="flex gap-[109px]">
+      <div className="flex justify-between">
         <div className="flex flex-col gap-[25px]">
           <span
             style={{
@@ -43,15 +41,15 @@ const Spec = () => {
             Инновации и творчество
           </span>
           <span
+            className="max-w-[550px]"
             style={{
               fontWeight: 400,
               fontSize: 20,
             }}
           >
-            Мы ценим инновации и креативность и{" "}
-            <p>стремимся разрабатывать шаблоны приложений,</p>{" "}
-            <p>которые одновременно привлекательны и</p>{" "}
-            <p>удобны для пользователя</p>
+            Мы ценим инновации и креативность и стремимся разрабатывать шаблоны
+            приложений, которые одновременно привлекательны и удобны для
+            пользователя
           </span>
         </div>
         <div className="flex flex-col gap-[25px]">
@@ -61,21 +59,21 @@ const Spec = () => {
               fontSize: 24,
             }}
           >
-            Простота и удобство использования​
+            Простота и удобство использования
           </span>
           <span
+            className="max-w-[550px]"
             style={{
               fontWeight: 400,
               fontSize: 20,
             }}
           >
-            Мы верим в простоту и удобство использования{" "}
-            <p>и стремимся сделать разработку мобильных</p>{" "}
-            <p>приложений доступной каждому.</p>{" "}
+            Мы верим в простоту и удобство использования и стремимся сделать
+            разработку мобильных приложений доступной каждому.
           </span>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

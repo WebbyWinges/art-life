@@ -2,14 +2,15 @@ import { AccordionComponent } from "../shared/Accordion/Accrodion";
 
 const Uns = () => {
   return (
-    <div className="flex flex-col p-24 gap-5">
+    <section className="flex flex-col px-[90px] py-[80px] gap-5">
       <span
+        className="leading-[64px]"
         style={{
           fontWeight: 700,
           fontSize: 64,
         }}
       >
-        Найдите ответы на часто <p>задаваемые вопросы</p>
+        Найдите ответы на часто <br /> задаваемые вопросы
       </span>
 
       <AccordionComponent
@@ -24,7 +25,7 @@ const Uns = () => {
           "Да, мы предлагаем приложения без кода, используя нашу собственную платформу для создания приложений. Это позволяет вам создавать и настраивать собственное мобильное приложение без какого-либо опыта программирования."
         }
       />
-    </div>
+    </section>
   );
 };
 

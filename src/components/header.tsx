@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "react-scroll";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +11,12 @@ import i1 from "../assets/iconamoon_profile.png";
 
 const InicialHeader = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex py-3 justify-around items-center px-24 bg-white shadow-xl ">
-      <span className="text-[32px] leading-[39px] font-400 font-montserratALternates">
-        ArtLife
-      </span>
+    <div className="flex max-w-[1440px] mx-auto w-full py-[44px]  justify-between items-center px-[86px] bg-white rounded-[20px]  ">
+      <a href="/">
+        <span className="text-[32px] leading-[39px] font-400 font-montserratALternates">
+          ArtLife
+        </span>
+      </a>
       {children}
     </div>
   );
@@ -58,7 +60,7 @@ const PreviewHeaderComponent = () => {
     <InicialHeader>
       <div>
         <Button variant={"link"}>
-          <Link to={""}>
+          <Link to="howWork" smooth={true} duration={500}>
             <span
               style={{
                 fontWeight: 400,
@@ -70,7 +72,7 @@ const PreviewHeaderComponent = () => {
           </Link>
         </Button>
         <Button variant={"link"}>
-          <Link to={""}>
+          <Link to="spec" smooth={true} duration={500}>
             <span
               style={{
                 fontWeight: 400,

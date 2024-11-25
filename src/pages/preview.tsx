@@ -13,25 +13,20 @@ const Preview = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className=" flex flex-col">
       <PreviewHeaderComponent />
       <div className="container">
         <div className="flex flex-col">
-          <section className="min-h-screen">
-            <Create />
-          </section>
-          <section className="min-h-screen">
-            <How />
-          </section>
-          <section className="min-h-screen">
-            <Spec />
-          </section>
-          <section className="min-h-screen">
-            <Go />
-          </section>
-          <section className="min-h-screen">
-            <Uns />
-          </section>
+          <Create />
+          <span id="howWork" />
+          <How />
+
+          <span id="spec" />
+          <Spec />
+
+          <Go />
+
+          <Uns />
         </div>
       </div>
       <Footer />
