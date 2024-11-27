@@ -12,6 +12,7 @@ const Exemples = () => {
           fontWeight: 600,
           fontSize: 30,
         }}
+        className="  font-montserratALternates"
       >
         Выберите шаблон для своего приложения
       </span>

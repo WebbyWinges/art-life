@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import i1 from "../../assets/Group 32.png"; 
+import i1 from "../../assets/Group 32.png";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
@@ -10,17 +10,17 @@ const MainSettings = () => {
   const [icon, setIcon] = useState<File | null>(null);
   const [isIcon, setIsIcon] = useState<boolean>(false);
 
-  const AppName = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value);
-  const AppTitle = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
+  const AppName = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setName(e.target.value);
+  const AppTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setIcon(e.target.files[0]);
     }
   };
 
-  const handleNextClick = () => {
-    
-  };
+  const handleNextClick = () => {};
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,6 +35,7 @@ const MainSettings = () => {
           fontWeight: 600,
           fontSize: 30,
         }}
+        className=" font-montserratALternates"
       >
         Основные настройки
       </span>
@@ -43,6 +44,7 @@ const MainSettings = () => {
           fontWeight: 400,
           fontSize: 16,
         }}
+        className=" font-montserratALternates"
       >
         Название приложения
       </span>
@@ -52,6 +54,7 @@ const MainSettings = () => {
           fontWeight: 400,
           fontSize: 16,
         }}
+        className=" font-montserratALternates"
       >
         Заголовок приложения
       </span>
@@ -61,6 +64,7 @@ const MainSettings = () => {
           fontWeight: 400,
           fontSize: 16,
         }}
+        className=" font-montserratALternates"
       >
         Иконка приложения
       </span>
@@ -97,7 +101,7 @@ const MainSettings = () => {
           Возможность показывать иконку в шапке (галочка)
         </span>
       </div>
-      <Button className="bg-[#10C3EB] w-32 mb-3" onClick={handleNextClick}> 
+      <Button className="bg-[#10C3EB] w-32 mb-3" onClick={handleNextClick}>
         <Link to={"/main/3"}>
           <span
             style={{

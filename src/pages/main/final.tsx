@@ -27,14 +27,15 @@ const Final = () => {
           fontSize: 20,
         }}
       >
-        Если вам все нравится, то остался последний штрих, нажать на <p>кнопку “Начать сборку”</p>
+        Если вам все нравится, то остался последний штрих, нажать на{" "}
+        <p>кнопку “Начать сборку”</p>
       </span>
 
-      <Button className="bg-[#10C3EB] w-32">
+      <Button className="bg-[#10C3EB] w-full max-w-[246px] h-[52px] rounded-[10px]  ">
         <span
           style={{
             fontWeight: 400,
-            fontSize: 16,
+            fontSize: 20,
           }}
         >
           Начать сборку

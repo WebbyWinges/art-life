@@ -11,6 +11,7 @@ export const MainForm = ({ text, icon }: Props) => {
           fontWeight: 400,
           fontSize: 16,
         }}
+        className=" !font-montserratALternates"
       >
         {text}
       </span>

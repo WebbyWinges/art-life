@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 
 const AppTheme = () => {
-  const [headerColor, setHeaderColor] = useState<string>("");
+  const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
   const [headerTextColor, setHeaderTextColor] = useState<string>("");
   const [hideHeader, setHideHeader] = useState<boolean>(false);
   const [backgroundColor, setBackgroundColor] = useState<string>("");
@@ -34,39 +34,77 @@ const AppTheme = () => {
       >
         Настройки внешнего вида
       </span>
-      <span
-        style={{
-          fontWeight: 400,
-          fontSize: 16,
-        }}
-      >
-        Цвет шапки
-      </span>
-      <Input 
-        type="color" 
-        className="p-0 rounded-none"
-        value={headerColor} 
-        onChange={(e) => setHeaderColor(e.target.value)} 
-      />
-      <span
-        style={{
-          fontWeight: 400,
-          fontSize: 16,
-        }}
-      >
-        Цвет текста в шапке
-      </span>
-      <Input 
-        type="color" 
-        className="p-0 rounded-none"
-        value={headerTextColor} 
-        onChange={(e) => setHeaderTextColor(e.target.value)} 
-      />
+      <div className="flex flex-row gap-3 items-center">
+        <span
+          style={{
+            fontWeight: 400,
+            fontSize: 16,
+          }}
+        >
+          Цвет шапки
+        </span>
+        <div className="relative">
+          <input
+            type="color"
+            className="rounded-[10px] !bg-transparent p-0 max-w-[119px] appearance-none absolute top-0 left-0 w-full h-full opacity-0"
+            style={{
+              width: "119px",
+              height: "44px",
+              border: "none",
+              outline: "none",
+              padding: "0",
+              backgroundColor: "transparent",
+            }}
+            value={headerColor}
+            onChange={e => setHeaderColor(e.target.value)}
+          />
+          <div
+            className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
+            style={{
+              backgroundColor: headerColor,
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-row gap-3 items-center">
+        <span
+          style={{
+            fontWeight: 400,
+            fontSize: 16,
+          }}
+        >
+          Цвет текста в шапке
+        </span>
+        <div className="relative">
+          <input
+            type="color"
+            className="rounded-[10px] !bg-transparent p-0 max-w-[119px] appearance-none absolute top-0 left-0 w-full h-full opacity-0"
+            style={{
+              width: "119px",
+              height: "44px",
+              border: "none",
+              outline: "none",
+              padding: "0",
+              backgroundColor: "transparent",
+            }}
+            value={headerTextColor}
+            onChange={e => setHeaderTextColor(e.target.value)}
+          />
+          <div
+            className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
+            style={{
+              backgroundColor: headerColor,
+            }}
+          />
+        </div>
+      </div>
+
       <div className="flex gap-3 items-center">
         <Input
           type="checkbox"
           checked={hideHeader}
-          onChange={(e) => setHideHeader(e.target.checked)}
+          onChange={e => setHideHeader(e.target.checked)}
           style={{
             width: 19,
             height: 19,
@@ -81,20 +119,39 @@ const AppTheme = () => {
           Убрать шапку
         </span>
       </div>
-      <span
-        style={{
-          fontWeight: 400,
-          fontSize: 16,
-        }}
-      >
-        Цвет фона приложения
-      </span>
-      <Input 
-        type="color" 
-        className="p-0 rounded-none"
-        value={backgroundColor} 
-        onChange={(e) => setBackgroundColor(e.target.value)} 
-      />
+
+      <div className="flex flex-row gap-3 items-center">
+        <span
+          style={{
+            fontWeight: 400,
+            fontSize: 16,
+          }}
+        >
+          Цвет фона приложения
+        </span>
+        <div className="relative">
+          <input
+            type="color"
+            className="rounded-[10px] !bg-transparent p-0 max-w-[119px] appearance-none absolute top-0 left-0 w-full h-full opacity-0"
+            style={{
+              width: "119px",
+              height: "44px",
+              border: "none",
+              outline: "none",
+              padding: "0",
+              backgroundColor: "transparent",
+            }}
+            value={backgroundColor}
+            onChange={e => setBackgroundColor(e.target.value)}
+          />
+          <div
+            className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
+            style={{
+              backgroundColor: headerColor,
+            }}
+          />
+        </div>
+      </div>
 
       <span
         style={{
@@ -123,7 +180,7 @@ const AppTheme = () => {
         <Input
           type="checkbox"
           checked={addSearch}
-          onChange={(e) => setAddSearch(e.target.checked)}
+          onChange={e => setAddSearch(e.target.checked)}
           style={{
             width: 19,
             height: 19,

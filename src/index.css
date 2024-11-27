@@ -9,6 +9,10 @@
   padding: 0;
 }
 
+body {
+  font-family: Montserrat Alternates, sans-serif;
+}
+
 .container {
   margin: 0 auto;
   overflow: visible;
