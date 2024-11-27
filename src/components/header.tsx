@@ -27,7 +27,7 @@ const AuthHeaderComponent = () => {
     <InicialHeader>
       <div className="flex gap-3">
         <Button variant={"default"}>
-          <Link to={"/auth/sign-in"}>
+          <a href={"/auth/sign-in"}>
             <span
               style={{
                 fontWeight: 400,
@@ -36,7 +36,7 @@ const AuthHeaderComponent = () => {
             >
               Войти
             </span>
-          </Link>
+          </a>
         </Button>
         <Button variant={"default"}>
           <Link to={"/auth/sign-up"}>
@@ -84,7 +84,7 @@ const PreviewHeaderComponent = () => {
           </Link>
         </Button>
         <Button variant={"default"}>
-          <Link to={"/auth/sign-in"}>
+          <a href={"/auth/sign-in"}>
             <span
               style={{
                 fontWeight: 400,
@@ -93,7 +93,7 @@ const PreviewHeaderComponent = () => {
             >
               Войти
             </span>
-          </Link>
+          </a>
         </Button>
       </div>
     </InicialHeader>
