@@ -39,7 +39,7 @@ const AuthHeaderComponent = () => {
           </a>
         </Button>
         <Button variant={"default"}>
-          <Link to={"/auth/sign-up"}>
+          <a href={"/auth/sign-up"}>
             <span
               style={{
                 fontWeight: 400,
@@ -48,7 +48,7 @@ const AuthHeaderComponent = () => {
             >
               Зарегистрироваться
             </span>
-          </Link>
+          </a>
         </Button>
       </div>
     </InicialHeader>
