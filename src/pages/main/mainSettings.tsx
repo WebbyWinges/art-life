@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import i1 from "../../assets/Group 32.png";
+import i1 from "../../assets/image 19.png";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
@@ -68,20 +68,38 @@ const MainSettings = () => {
       >
         Иконка приложения
       </span>
-      <div className="flex justify-center items-center w-[150px] h-[150px] border-none outline-none">
-        {icon ? (
-          <img src={URL.createObjectURL(icon)} alt="Uploaded Icon" />
-        ) : (
-          <img src={i1} alt="Default Icon" />
-        )}
+
+      <div className=" relative max-w-[150px] rounded-[10px]  border-[2px]  border-b-[#d9d9d900] border-[#D9D9D9]">
+        <div className="flex justify-center items-center w-[150px] h-[150px] border-none outline-none ">
+          {icon ? (
+            <div className="p-[0px] pb-[20px] rounded-[10px]">
+              <img
+                className=" max-h-[130px]"
+                src={URL.createObjectURL(icon)}
+                alt="Uploaded Icon"
+              />
+            </div>
+          ) : (
+            <div className="p-[24px] pb-[44px]">
+              <img src={i1} alt="Default Icon" />
+            </div>
+          )}
+        </div>
+        <Input
+          className="  hidden"
+          type="file"
+          ref={fileInputRef}
+          onChange={handleIconChange}
+          accept="image/*"
+        />
+        <Button
+          className="  absolute bottom-[-10px] w-full bg-[#10C3EB]"
+          onClick={handleIconClick}
+        >
+          Загрузить
+        </Button>
       </div>
-      <Input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleIconChange}
-        accept="image/*"
-      />
-      <Button onClick={handleIconClick}>Выбрать иконку</Button>
+
       <div className="flex gap-3 justify-center items-center">
         <Input
           type="checkbox"
