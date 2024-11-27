@@ -1,4 +1,4 @@
-export const GreenStick = ({ className, ...props }: any) => {
+export const GreenStick = ({}: any) => {
   return (
     <svg
       width="2"

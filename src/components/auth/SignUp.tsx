@@ -4,46 +4,41 @@ import { Input } from "../ui/input";
 import { Auth } from "@/api/actions/auth";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const SignUp = () => {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-
-  const [passError, setPassError] = useState<boolean>(false);
-
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
   const auth = new Auth();
   const navigate = useNavigate();
   const { setData } = useLocalStorage();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setPassError(prev => !prev);
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    console.log("Form Data:", data);
+    if (data.password !== data.confirmPassword) {
+      console.log("Пароли не совпадают");
       return;
     }
 
-    const data = {
-      name,
-      email,
-      password,
-    };
-
     const res = await auth.signUp(data);
 
-    if ((_id: string) => res) {
+    if (res) {
       navigate("/main/1");
-      setData({ name: "user", value: { res } });
+      localStorage.setItem("user", JSON.stringify(res));
     }
 
-    setName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-
-    console.log(name, email, password, confirmPassword);
+    console.log(data);
   };
 
   return (
@@ -57,75 +52,78 @@ const SignUp = () => {
         Войдите в личный кабинет, если у Вас уже есть аккаунт
       </span>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="w-96 bg-white rounded-3xl flex flex-col p-6 gap-5"
       >
         <div className="flex flex-col gap-2">
-          <label htmlFor="email">Имя</label>
+          <label htmlFor="name">Имя</label>
           <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-            <Input
-              type="text"
-              id="name"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              required
+            <Controller
+              name="name"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input type="text" id="name" {...field} required />
+              )}
             />
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Почта</label>
           <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-            <Input
-              type="email"
-              id="email"
-              value={email}
-              onError={() => console.log("err")}
-              onChange={e => setEmail(e.target.value)}
-              required
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              rules={{ required: true, pattern: /^\S+@\S+$/i }}
+              render={({ field }) => (
+                <Input type="email" id="email" {...field} required />
+              )}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            {passError ? (
-              <div>
-                <span className="text-red-400">Пароли не совпадают</span>
-              </div>
-            ) : (
-              <label htmlFor="password">Пароль</label>
-            )}
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input
-                type="password"
-                id="password"
-                value={password}
-                className={
-                  passError ? "border-2 border-solid border-red-400" : ""
-                }
-                onChange={e => setPassword(e.target.value)}
-                required
-              />
-            </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="password">Пароль</label>
+          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input type="password" id="password" {...field} required />
+              )}
+            />
           </div>
-          <div className="flex flex-col gap-2">
-            {passError ? (
-              <div>
-                <span className="text-red-400">Пароли не совпадают</span>
-              </div>
-            ) : (
-              <label htmlFor="password">Подтверждени пароля</label>
-            )}
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                className={
-                  passError ? "border-2 border-solid border-red-400" : ""
-                }
-                onChange={e => setConfirmPassword(e.target.value)}
-                required
-              />
-            </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="confirmPassword">Подтверждение пароля</label>
+          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+            <Controller
+              name="confirmPassword"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                validate: value =>
+                  value === watch("password") || "Пароли не совпадают",
+              }}
+              render={({ field }) => (
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  {...field}
+                  required
+                />
+              )}
+            />
           </div>
+          {errors.confirmPassword && (
+            <span className="text-red-400">
+              {errors.confirmPassword.message}
+            </span>
+          )}
         </div>
         <Button
           type="submit"
