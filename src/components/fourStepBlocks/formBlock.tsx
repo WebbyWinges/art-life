@@ -19,7 +19,7 @@ export const FormBlock = () => {
   const [icon, setIcon] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
-  const [selectedValue, setSelectedValue] = useState("Текст");
+  const [selectedValue, setSelectedValue] = useState("Телефон");
 
   const handleIconClick = () => {
     fileInputRef.current?.click();
@@ -155,6 +155,7 @@ export const FormBlock = () => {
           </div>
         </div>
       </div>
+      <h3>Отправить ответы</h3>
       <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-4 py-1">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -172,10 +173,10 @@ export const FormBlock = () => {
               value={selectedValue}
               onValueChange={handleValueChange}
             >
-              <DropdownMenuRadioItem value="Email">Email</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="Телефон">
                 Телефон
               </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="Email">Email</DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
