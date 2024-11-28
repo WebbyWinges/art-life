@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Auth } from "@/api/actions/auth";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 interface FormData {
@@ -22,7 +21,6 @@ const SignUp = () => {
   } = useForm<FormData>();
   const auth = new Auth();
   const navigate = useNavigate();
-  const { setData } = useLocalStorage();
 
   const onSubmit: SubmitHandler<FormData> = async data => {
     console.log("Form Data:", data);

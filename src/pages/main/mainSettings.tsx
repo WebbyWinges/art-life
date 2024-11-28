@@ -72,7 +72,7 @@ const MainSettings = () => {
       <div className=" relative max-w-[150px] rounded-[10px]  border-[2px]  border-b-[#d9d9d900] border-[#D9D9D9]">
         <div className="flex justify-center items-center w-[150px] h-[150px] border-none outline-none ">
           {icon ? (
-            <div className="p-[0px] pb-[20px] rounded-[10px]">
+            <div className="pr-[4px] pb-[20px] rounded-[10px]">
               <img
                 className=" max-h-[130px]"
                 src={URL.createObjectURL(icon)}

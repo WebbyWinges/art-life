@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import i1 from "../../assets/Group 32.png";
+import i1 from "../../assets/image 19.png";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
@@ -9,8 +9,9 @@ const AppTheme = () => {
   const [headerTextColor, setHeaderTextColor] = useState<string>("");
   const [hideHeader, setHideHeader] = useState<boolean>(false);
   const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [backgroundImage, setBackgroundImage] = useState<File | null>(null);
+
   const [addSearch, setAddSearch] = useState<boolean>(false);
+  const [icon, setIcon] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -20,7 +21,7 @@ const AppTheme = () => {
 
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setBackgroundImage(e.target.files[0]);
+      setIcon(e.target.files[0]);
     }
   };
 
@@ -161,20 +162,36 @@ const AppTheme = () => {
       >
         Картинка фона
       </span>
-      <div className="flex justify-center items-center w-150px h-150px border-none outline-none">
-        {backgroundImage ? (
-          <img src={URL.createObjectURL(backgroundImage)} alt="Uploaded Icon" />
-        ) : (
-          <img src={i1} alt="Default Icon" />
-        )}
+      <div className=" relative max-w-[150px] rounded-[10px]  border-[2px]  border-b-[#d9d9d900] border-[#D9D9D9]">
+        <div className="flex justify-center items-center w-[150px] h-[150px] border-none outline-none ">
+          {icon ? (
+            <div className="pr-[4px] pb-[20px] rounded-[10px]">
+              <img
+                className=" max-h-[130px]"
+                src={URL.createObjectURL(icon)}
+                alt="Uploaded Icon"
+              />
+            </div>
+          ) : (
+            <div className="p-[24px] pb-[44px]">
+              <img src={i1} alt="Default Icon" />
+            </div>
+          )}
+        </div>
+        <Input
+          className="  hidden"
+          type="file"
+          ref={fileInputRef}
+          onChange={handleIconChange}
+          accept="image/*"
+        />
+        <Button
+          className="  absolute bottom-[-10px] w-full bg-[#10C3EB]"
+          onClick={handleIconClick}
+        >
+          Загрузить
+        </Button>
       </div>
-      <Input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleIconChange}
-        accept="image/*"
-      />
-      <Button onClick={handleIconClick}>Выбрать иконку</Button>
 
       <div className="flex gap-3 justify-center items-center">
         <Input
@@ -195,8 +212,8 @@ const AppTheme = () => {
           Добавить поиск (по наполнению приложения)
         </span>
       </div>
-      <Button className="bg-[#10C3EB] w-32 mb-3">
-        <Link to={"/main/4"}>
+      <Link to={"/main/4"}>
+        <Button className="bg-[#10C3EB] w-32 mb-3">
           <span
             style={{
               fontWeight: 400,
@@ -205,8 +222,8 @@ const AppTheme = () => {
           >
             Далее
           </span>
-        </Link>
-      </Button>
+        </Button>
+      </Link>
     </div>
   );
 };

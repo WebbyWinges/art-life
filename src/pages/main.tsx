@@ -35,7 +35,7 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-between h-screen bg-gray-100">
+    <div className="flex flex-col justify-between  bg-gray-100">
       <MainHeaderComponent />
       <div className=" container flex py-[80px] px-24 gap-10 bg-gray-100">
         <Slider />
