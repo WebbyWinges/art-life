@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -24,8 +23,7 @@ type ButtonField = {
 
 const FooterSettings: React.FC = () => {
   const [removeBottomPanel, setRemoveBottomPanel] = useState(false);
-  const [panelColor, setPanelColor] = useState<string>("");
-  const [iconTextColor, setIconTextColor] = useState<string>("");
+  const [panelColor, setPanelColor] = useState<string>("#D9D9D9");
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
   const [selectedValue, setSelectedValue] = useState("Телефон");
 
@@ -33,7 +31,7 @@ const FooterSettings: React.FC = () => {
     const fullFormData = {
       removeBottomPanel,
       panelColor,
-      iconTextColor,
+
       buttons: formData.buttons,
     };
     console.log("Received form data:", fullFormData);
@@ -126,13 +124,13 @@ const FooterSettings: React.FC = () => {
               padding: "0",
               backgroundColor: "transparent",
             }}
-            value={headerColor}
-            onChange={e => setHeaderColor(e.target.value)}
+            value={panelColor}
+            onChange={e => setPanelColor(e.target.value)}
           />
           <div
             className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
             style={{
-              backgroundColor: headerColor,
+              backgroundColor: panelColor,
             }}
           />
         </div>

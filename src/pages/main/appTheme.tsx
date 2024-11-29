@@ -6,9 +6,9 @@ import { useRef, useState } from "react";
 
 const AppTheme = () => {
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
-  const [headerTextColor, setHeaderTextColor] = useState<string>("");
+  const [headerTextColor, setHeaderTextColor] = useState<string>("#D9D9D9");
   const [hideHeader, setHideHeader] = useState<boolean>(false);
-  const [backgroundColor, setBackgroundColor] = useState<string>("");
+  const [backgroundColor, setBackgroundColor] = useState<string>("#D9D9D9");
 
   const [addSearch, setAddSearch] = useState<boolean>(false);
   const [icon, setIcon] = useState<File | null>(null);
@@ -95,7 +95,7 @@ const AppTheme = () => {
           <div
             className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
             style={{
-              backgroundColor: headerColor,
+              backgroundColor: headerTextColor,
             }}
           />
         </div>
@@ -148,7 +148,7 @@ const AppTheme = () => {
           <div
             className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
             style={{
-              backgroundColor: headerColor,
+              backgroundColor: backgroundColor,
             }}
           />
         </div>

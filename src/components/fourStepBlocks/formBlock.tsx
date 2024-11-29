@@ -1,12 +1,9 @@
 import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import i1 from "../../assets/image 19.png";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -16,19 +13,14 @@ import {
 import { ChevronDown } from "lucide-react";
 
 export const FormBlock = () => {
-  const [icon, setIcon] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
+  const [headerTextColor, setHeaderTextColor] = useState<string>("#D9D9D9");
+  const [backgroundColor, setBackgroundColor] = useState<string>("#D9D9D9");
   const [selectedValue, setSelectedValue] = useState("Телефон");
 
   const handleIconClick = () => {
     fileInputRef.current?.click();
-  };
-
-  const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setIcon(e.target.files[0]);
-    }
   };
 
   const handleValueChange = (value: React.SetStateAction<string>) => {
@@ -89,7 +81,7 @@ export const FormBlock = () => {
               />
             </div>
           </div>
-          <div className="flex flex-row gap-6 items-center">
+          <div className="flex flex-row gap-10 items-center">
             <span
               style={{
                 fontWeight: 400,
@@ -110,18 +102,18 @@ export const FormBlock = () => {
                   padding: "0",
                   backgroundColor: "transparent",
                 }}
-                value={headerColor}
-                onChange={e => setHeaderColor(e.target.value)}
+                value={headerTextColor}
+                onChange={e => setHeaderTextColor(e.target.value)}
               />
               <div
                 className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
                 style={{
-                  backgroundColor: headerColor,
+                  backgroundColor: headerTextColor,
                 }}
               />
             </div>
           </div>
-          <div className="flex flex-row gap-[56px] items-center">
+          <div className="flex flex-row gap-[68px] items-center">
             <span
               style={{
                 fontWeight: 400,
@@ -142,13 +134,13 @@ export const FormBlock = () => {
                   padding: "0",
                   backgroundColor: "transparent",
                 }}
-                value={headerColor}
-                onChange={e => setHeaderColor(e.target.value)}
+                value={backgroundColor}
+                onChange={e => setBackgroundColor(e.target.value)}
               />
               <div
                 className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
                 style={{
-                  backgroundColor: headerColor,
+                  backgroundColor: backgroundColor,
                 }}
               />
             </div>
@@ -182,7 +174,7 @@ export const FormBlock = () => {
         </DropdownMenu>
       </div>
       <span>Номер телефона/Email</span>
-      <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] mb-[50px]">
+      <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
         <Input type="text" />
       </div>
     </div>

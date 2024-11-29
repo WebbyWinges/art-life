@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React from "react";
 import { ChevronDown, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TextBlock } from "@/components/fourStepBlocks/textBlock";
@@ -19,13 +18,25 @@ import { FormBlock } from "@/components/fourStepBlocks/formBlock";
 import { PlitMenu } from "@/components/fourStepBlocks/plitMenu";
 
 const Create = () => {
-  const [selectedValue, setSelectedValue] = useState("Текст");
-  const handleValueChange = (value: React.SetStateAction<string>) => {
-    setSelectedValue(value);
+  const [blocks, setBlocks] = useState([{ id: 0, selectedValue: "Текст" }]);
+
+  const handleValueChange = (id: number, value: string) => {
+    setBlocks(prevBlocks =>
+      prevBlocks.map(block =>
+        block.id === id ? { ...block, selectedValue: value } : block,
+      ),
+    );
+  };
+
+  const addBlock = () => {
+    setBlocks(prevBlocks => [
+      ...prevBlocks,
+      { id: prevBlocks.length, selectedValue: "Текст" },
+    ]);
   };
 
   return (
-    <div className="  flex flex-col p-6 gap-5 w-[800px]">
+    <div className="flex flex-col p-6 pb-[50px] gap-5 w-[800px]">
       <span
         style={{
           fontWeight: 600,
@@ -62,48 +73,56 @@ const Create = () => {
 
         <div className="flex flex-col gap-4">
           <h2 className="font-medium text-[20px] leading-[24px]">Блоки</h2>
-          <div className="flex flex-col gap-4 pl-3">
-            <h3>Тип блока</h3>
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-4 py-1">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="text-[16px] font-normal flex  justify-between w-full"
-                  >
-                    {selectedValue}
-                    <ChevronDown />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={selectedValue}
-                    onValueChange={handleValueChange}
-                  >
-                    <DropdownMenuRadioItem value="Текст">
-                      Текст
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="Изображение">
-                      Изображение
-                    </DropdownMenuRadioItem>
-
-                    <DropdownMenuRadioItem value="Плиточное меню">
-                      Плиточное меню
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="Форма">
-                      Форма
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
+          {blocks.map(block => (
+            <div key={block.id} className="flex flex-col gap-4 pl-3">
+              <h3>Тип блока</h3>
+              <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-4 py-1">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="text-[16px] font-normal flex justify-between w-full"
+                    >
+                      {block.selectedValue}
+                      <ChevronDown />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup
+                      value={block.selectedValue}
+                      onValueChange={value =>
+                        handleValueChange(block.id, value)
+                      }
+                    >
+                      <DropdownMenuRadioItem value="Текст">
+                        Текст
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="Изображение">
+                        Изображение
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="Плиточное меню">
+                        Плиточное меню
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="Форма">
+                        Форма
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              {block.selectedValue === "Текст" && <TextBlock />}
+              {block.selectedValue === "Изображение" && <PictureBlock />}
+              {block.selectedValue === "Плиточное меню" && <PlitMenu />}
+              {block.selectedValue === "Форма" && <FormBlock />}
             </div>
-            {selectedValue === "Текст" && <TextBlock />}
-            {selectedValue === "Изображение" && <PictureBlock />}
-
-            {selectedValue === "Плиточное меню" && <PlitMenu />}
-            {selectedValue === "Форма" && <FormBlock />}
-          </div>
+          ))}
+          <Button
+            className="w-[180px] bg-[#000000] mb-[50px] mt-[30px] ml-3"
+            onClick={addBlock}
+          >
+            Добавить блок
+          </Button>
         </div>
       </div>
       <Link to={"/main/5"}>
@@ -121,5 +140,4 @@ const Create = () => {
     </div>
   );
 };
-
 export default Create;
