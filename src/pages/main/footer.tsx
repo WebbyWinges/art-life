@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LoadPic } from "@/components/ui/loadPic";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type ButtonField = {
   id: number;
@@ -26,6 +27,51 @@ const FooterSettings: React.FC = () => {
   const [panelColor, setPanelColor] = useState<string>("#D9D9D9");
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
   const [selectedValue, setSelectedValue] = useState("Телефон");
+  const [tabs, setTabs] = useState([
+    {
+      id: 0,
+      name: "Кнопка 1",
+      type: "Телефон",
+      icon: null,
+      label: "",
+      phone: "",
+      pageLink: "",
+    },
+  ]);
+
+  const [activeTab, setActiveTab] = useState(tabs[0].name);
+
+  const addTab = () => {
+    const newTabId = tabs.length;
+    const newTab = {
+      id: newTabId,
+      name: `Кнопка ${newTabId + 1}`,
+      type: "Телефон",
+      icon: null,
+      label: "",
+      phone: "",
+      pageLink: "",
+    };
+    setTabs(prevTabs => [...prevTabs, newTab]);
+    setActiveTab(newTab.name);
+  };
+
+  const handleTabNameChange = (tabId: number, name: string) => {
+    setTabs(prevTabs =>
+      prevTabs.map(tab => (tab.id === tabId ? { ...tab, name } : tab)),
+    );
+
+    // Обновление активного таба, если он совпадает
+    if (tabId === tabs.find(tab => tab.name === activeTab)?.id) {
+      setActiveTab(name); // Здесь также используется строка
+    }
+  };
+
+  const handleTabValueChange = (tabId: number, key: string, value: string) => {
+    setTabs(prevTabs =>
+      prevTabs.map(tab => (tab.id === tabId ? { ...tab, [key]: value } : tab)),
+    );
+  };
 
   const handleFormSubmit = (formData: { buttons: ButtonField[] }) => {
     const fullFormData = {
@@ -145,80 +191,134 @@ const FooterSettings: React.FC = () => {
         Кнопки
       </span>
       <div className="flex flex-col gap-4 bg-white rounded-3xl p-6 w-[800px]">
-        <div className="flex flex-row gap-[38px] items-center">
-          <span className="text-[16px]">Кнопка телефон</span>
-          <Plus className="w-[20px] h-[20px]" />
-        </div>
-        <div className="flex flex-col gap-3">
-          <h3>Тип кнопки</h3>
-          <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-2 py-1">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="text-[16px] font-normal flex  justify-between w-full"
-                >
-                  {selectedValue}
-                  <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup
-                  value={selectedValue}
-                  onValueChange={handleValueChange}
-                >
-                  <DropdownMenuRadioItem value="Телефон">
-                    <div className="flex flex-col">
-                      <span>Телефон</span>
-                    </div>
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="Произвольная">
-                    Произвольная
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="flex flex-row gap-[40px] justify-start items-center mb-10">
+            {tabs.map(tab => (
+              <TabsTrigger
+                key={tab.id}
+                value={tab.name}
+                className="flex-shrink-0"
+              >
+                {tab.name}
+              </TabsTrigger>
+            ))}
+            <Plus
+              className="w-[20px] h-[20px] cursor-pointer"
+              onClick={addTab}
+            />
+          </TabsList>
+          {tabs.map(tab => (
+            <TabsContent key={tab.id} value={tab.name}>
+              <div className="flex flex-col gap-3">
+                <h3>Название кнопки</h3>
+                <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+                  <Input
+                    type="text"
+                    value={tab.name}
+                    onChange={e => handleTabNameChange(tab.id, e.target.value)}
+                  />
+                </div>
+                <h3>Тип кнопки</h3>
+                <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-2 py-1">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-[16px] font-normal flex justify-between w-full"
+                      >
+                        {tab.type}
+                        <ChevronDown />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuSeparator />
+                      <DropdownMenuRadioGroup
+                        value={tab.type}
+                        onValueChange={value =>
+                          handleTabValueChange(tab.id, "type", value)
+                        }
+                      >
+                        <DropdownMenuRadioItem value="Телефон">
+                          Телефон
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="Произвольная">
+                          Произвольная
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
 
-        {selectedValue === "Произвольная" && (
-          <>
-            <h3>Иконка</h3>
-            <LoadPic />
-            <h3>Подпись</h3>
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input type="text" />
-            </div>
-          </>
-        )}
-        {selectedValue === "Телефон" && (
-          <>
-            <h3>Телефон</h3>
-            <div className="flex flex-col gap-1">
-              <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] ">
-                <Input type="text" />
+                {tab.type === "Произвольная" && (
+                  <>
+                    <h3>Иконка</h3>
+                    <LoadPic />
+                    <h3>Подпись</h3>
+                    <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+                      <Input
+                        type="text"
+                        value={tab.label}
+                        onChange={e =>
+                          handleTabValueChange(tab.id, "label", e.target.value)
+                        }
+                      />
+                    </div>
+                    <h3>Страница перехода</h3>
+                    <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+                      <Input
+                        type="text"
+                        value={tab.pageLink}
+                        onChange={e =>
+                          handleTabValueChange(
+                            tab.id,
+                            "pageLink",
+                            e.target.value,
+                          )
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+                {tab.type === "Телефон" && (
+                  <>
+                    <h3>Телефон</h3>
+                    <div className="flex flex-col gap-1">
+                      <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+                        <Input
+                          type="text"
+                          value={tab.phone}
+                          onChange={e =>
+                            handleTabValueChange(
+                              tab.id,
+                              "phone",
+                              e.target.value,
+                            )
+                          }
+                        />
+                      </div>
+                      <p className="text-[11px]">
+                        По этому телефону с Вами смогут связаться, нажав данную
+                        кнопку и перейдя в приложение
+                      </p>
+                    </div>
+                    <h3>Подпись</h3>
+                    <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
+                      <Input
+                        type="text"
+                        value={tab.label}
+                        onChange={e =>
+                          handleTabValueChange(tab.id, "label", e.target.value)
+                        }
+                      />
+                    </div>
+                  </>
+                )}
               </div>
-              <p className="text-[11px]">
-                По этому телефону с Вами смогут связаться, нажав данную кнопку и
-                перейдя в приложение
-              </p>
-            </div>
-            <h3>Подпись</h3>
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input type="text" />
-            </div>
-          </>
-        )}
-        {selectedValue === "Произвольная" && (
-          <>
-            <h3>Страница перехода</h3>
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input type="text" />
-            </div>
-          </>
-        )}
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
+
       <Link to={"/main/6"}>
         <Button className="bg-[#10C3EB] w-32 mb-3">
           <span

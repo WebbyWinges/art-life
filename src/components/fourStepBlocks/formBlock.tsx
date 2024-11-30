@@ -30,7 +30,7 @@ export const FormBlock = () => {
   return (
     <div className="flex flex-col gap-4">
       <h3>Поля</h3>
-      <div className="flex flex-row gap-[130px]">
+      <div className="flex flex-row gap-[155px]">
         <div className="flex flex-col gap-3">
           <div>
             <input type="checkbox" /> <span>Имя</span>
@@ -81,7 +81,7 @@ export const FormBlock = () => {
               />
             </div>
           </div>
-          <div className="flex flex-row gap-10 items-center">
+          <div className="flex flex-row gap-6 items-center">
             <span
               style={{
                 fontWeight: 400,
@@ -113,7 +113,7 @@ export const FormBlock = () => {
               />
             </div>
           </div>
-          <div className="flex flex-row gap-[68px] items-center">
+          <div className="flex flex-row gap-[58px] items-center">
             <span
               style={{
                 fontWeight: 400,

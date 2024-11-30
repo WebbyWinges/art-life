@@ -103,7 +103,7 @@ const PreviewHeaderComponent = () => {
 const MainHeaderComponent = () => {
   return (
     <InicialHeader>
-      <div className="flex">
+      <div className="flex gap-[38px]">
         <Button variant={"link"}>Мои проекты</Button>
         <DropdownMenu>
           <DropdownMenuTrigger
