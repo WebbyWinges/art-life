@@ -48,7 +48,7 @@ export const PlitMenu = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row items-center gap-[92px]">
+      <div className="flex flex-row items-center gap-[90px]">
         <div className="flex flex-row items-center gap-4">
           <span className="">Количество плиток в строке</span>
           <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-4 py-1 w-[80px]">
@@ -158,7 +158,11 @@ export const PlitMenu = () => {
         ))}
       </div>
       <div className="flex justify-center w-full">
-        <Button className="w-[215px] bg-[#10C3EB]" onClick={handleAddTile}>
+        <Button
+          disabled={icons.length >= 9}
+          className="w-[215px] bg-[#10C3EB]"
+          onClick={handleAddTile}
+        >
           Добавить плитку
         </Button>
       </div>

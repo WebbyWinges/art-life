@@ -7,7 +7,7 @@ import i3 from "../../assets/image 16.png";
 const How = () => {
   return (
     <section className="bg-black text-white w-full py-[84px] gap-[80px] px-[134px] justify-between flex rounded-[20px]">
-      <div className="flex flex-col justify-between items-left  gap-[18px]">
+      <div className="flex flex-col justify-between items-left ">
         <img
           className=" rounded-[20px]"
           src={image}

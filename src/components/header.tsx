@@ -58,7 +58,7 @@ const AuthHeaderComponent = () => {
 const PreviewHeaderComponent = () => {
   return (
     <InicialHeader>
-      <div>
+      <div className="flex flex-row gap-[29px]">
         <Button variant={"link"}>
           <Link to="howWork" smooth={true} duration={500}>
             <span
@@ -83,8 +83,8 @@ const PreviewHeaderComponent = () => {
             </span>
           </Link>
         </Button>
-        <Button variant={"default"}>
-          <a href={"/auth/sign-in"}>
+        <a href={"/auth/sign-in"}>
+          <Button className="" variant={"default"}>
             <span
               style={{
                 fontWeight: 400,
@@ -93,8 +93,8 @@ const PreviewHeaderComponent = () => {
             >
               Войти
             </span>
-          </a>
-        </Button>
+          </Button>
+        </a>
       </div>
     </InicialHeader>
   );

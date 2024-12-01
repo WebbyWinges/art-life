@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const Final = () => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 min-h-screen">
       <span
         style={{
           fontWeight: 600,

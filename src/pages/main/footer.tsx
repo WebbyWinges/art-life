@@ -42,6 +42,10 @@ const FooterSettings: React.FC = () => {
   const [activeTab, setActiveTab] = useState(tabs[0].name);
 
   const addTab = () => {
+    if (tabs.length >= 6) {
+      alert("Максимальное количество кнопок 6");
+      return;
+    }
     const newTabId = tabs.length;
     const newTab = {
       id: newTabId,
@@ -224,13 +228,13 @@ const FooterSettings: React.FC = () => {
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="text-[16px] font-normal flex justify-between w-full"
+                        className="text-[16px] font-normal flex justify-between w-full p-1"
                       >
                         {tab.type}
                         <ChevronDown />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
+                    <DropdownMenuContent className="w-full">
                       <DropdownMenuSeparator />
                       <DropdownMenuRadioGroup
                         value={tab.type}

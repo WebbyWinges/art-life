@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import image from "../../assets/Group 3.png";
+import mainImage from "../../assets/Main_image.png";
 import fond from "../../assets/fond.png";
 
 const Create = () => {
@@ -8,7 +9,8 @@ const Create = () => {
       <div
         className="flex flex-col gap-6 px-[86px] py-[56px]  rounded-3xl w-full"
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundColor: "#a8f0fe",
+          backgroundImage: `url(${mainImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

@@ -119,8 +119,8 @@ const MainSettings = () => {
           Возможность показывать иконку в шапке (галочка)
         </span>
       </div>
-      <Button className="bg-[#10C3EB] w-32 mb-3" onClick={handleNextClick}>
-        <Link to={"/main/3"}>
+      <Link to={"/main/3"}>
+        <Button className="bg-[#10C3EB] w-32 mb-3" onClick={handleNextClick}>
           <span
             style={{
               fontWeight: 400,
@@ -129,8 +129,8 @@ const MainSettings = () => {
           >
             Далее
           </span>
-        </Link>
-      </Button>
+        </Button>
+      </Link>
     </div>
   );
 };
