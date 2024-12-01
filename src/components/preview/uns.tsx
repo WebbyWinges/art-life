@@ -2,7 +2,7 @@ import { AccordionComponent } from "../shared/Accordion/Accrodion";
 
 const Uns = () => {
   return (
-    <section className="flex flex-col px-[90px] py-[80px] gap-5">
+    <section className="flex flex-col px-[90px] py-[80px] gap-5 h-[70vh]">
       <span
         className="leading-[64px]"
         style={{
