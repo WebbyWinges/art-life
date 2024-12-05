@@ -1,9 +1,11 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Auth } from "@/api/actions/auth";
+
 import { useNavigate } from "react-router-dom";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
+import { useState } from "react";
 
 interface FormData {
   name: string;
@@ -19,24 +21,35 @@ const SignUp = () => {
     watch,
     formState: { errors },
   } = useForm<FormData>();
-  const auth = new Auth();
   const navigate = useNavigate();
+  const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<FormData> = async data => {
     console.log("Form Data:", data);
     if (data.password !== data.confirmPassword) {
       console.log("Пароли не совпадают");
+      setResponseMessage("Пароли не совпадают");
       return;
     }
 
-    const res = await auth.signUp(data);
-
-    if (res) {
+    try {
+      // Отправка данных на сервер
+      const response = await axios.post("https://example.com/auth/register", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+      setResponseMessage(`Success: ${response.data.message}`);
+      localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/main/1");
-      localStorage.setItem("user", JSON.stringify(res));
+    } catch (error: any) {
+      // Обработка ошибок
+      if (error.response) {
+        setResponseMessage(`Error: ${error.response.data.error}`);
+      } else {
+        setResponseMessage("An unexpected error occurred.");
+      }
     }
-
-    console.log(data);
   };
 
   return (
@@ -136,6 +149,11 @@ const SignUp = () => {
             Войти
           </span>
         </Button>
+        {responseMessage && (
+          <div className="mt-4 p-2 border rounded bg-gray-100">
+            {responseMessage}
+          </div>
+        )}
       </form>
     </div>
   );

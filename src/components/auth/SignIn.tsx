@@ -1,10 +1,11 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Auth } from "@/api/actions/auth";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import axios from "axios";
 
 interface FormData {
   email: string;
@@ -13,17 +14,29 @@ interface FormData {
 
 const SignIn = () => {
   const { control, handleSubmit } = useForm<FormData>();
-  const auth = new Auth();
-  const isAuth = useAuth();
   const navigate = useNavigate();
+  const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log("Form Data:", data); // Добавьте этот вывод для отладки
-    const res = await auth.signIn(data);
-    if (res) {
-      isAuth.setIsAuth(true);
+    console.log("Form Data:", data);
+
+    try {
+      // Отправка данных на сервер
+      const response = await axios.post("https://example.com/auth/login", {
+        email: data.email,
+        password: data.password,
+      });
+
+      setResponseMessage(`Добро пожаловать!`);
+      localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/main/1");
-      localStorage.setItem("user", JSON.stringify(res));
+    } catch (error: any) {
+      // Обработка ошибок
+      if (error.response) {
+        setResponseMessage(`Ошибка: ${error.response.data.error}`);
+      } else {
+        setResponseMessage("Произошла непредвиденная ошибка.");
+      }
     }
   };
 
@@ -92,6 +105,11 @@ const SignIn = () => {
             Войти
           </span>
         </Button>
+        {responseMessage && (
+          <div className="mt-4 p-2 border rounded bg-gray-100">
+            {responseMessage}
+          </div>
+        )}
       </form>
     </div>
   );
