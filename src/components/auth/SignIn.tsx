@@ -22,7 +22,7 @@ const SignIn = () => {
 
     try {
       // Отправка данных на сервер
-      const response = await axios.post("https://example.com/auth/login", {
+      const response = await axios.post(`${process.env.HOST_NAME}/auth/login`, {
         email: data.email,
         password: data.password,
       });
