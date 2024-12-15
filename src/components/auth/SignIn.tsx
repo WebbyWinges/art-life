@@ -22,10 +22,13 @@ const SignIn = () => {
 
     try {
       // Отправка данных на сервер
-      const response = await axios.post(`${process.env.HOST_NAME}/auth/login`, {
-        email: data.email,
-        password: data.password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_HOST_NAME}/auth/login`,
+        {
+          email: data.email,
+          password: data.password,
+        },
+      );
 
       setResponseMessage(`Добро пожаловать!`);
       localStorage.setItem("user", JSON.stringify(response.data));

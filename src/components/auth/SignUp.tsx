@@ -34,11 +34,14 @@ const SignUp = () => {
 
     try {
       // Отправка данных на сервер
-      const response = await axios.post("https://example.com/auth/register", {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_HOST_NAME}/auth/register`,
+        {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+      );
       setResponseMessage(`Success: ${response.data.message}`);
       localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/main/1");
