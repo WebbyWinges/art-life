@@ -14,8 +14,13 @@ const MainPage = () => {
       if (user) {
         const parsedUser = JSON.parse(user);
 
+        console.log(user);
+        console.log(parsedUser);
+        
+        
+
         if (parsedUser) {
-          const u = await userService.getUser(parsedUser);
+          const u = await userService.getUser(parsedUser.id);
           localStorage.setItem("user", JSON.stringify(u));
           return u;
         } else {

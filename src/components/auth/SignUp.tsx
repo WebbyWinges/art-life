@@ -41,6 +41,7 @@ const SignUp = () => {
           email: data.email,
           password: data.password,
         },
+        { withCredentials: true },
       );
       setResponseMessage(`Success: ${response.data.message}`);
       localStorage.setItem("user", JSON.stringify(response.data));

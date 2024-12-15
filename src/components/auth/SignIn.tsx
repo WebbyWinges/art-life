@@ -28,6 +28,7 @@ const SignIn = () => {
           email: data.email,
           password: data.password,
         },
+        { withCredentials: true },
       );
 
       setResponseMessage(`Добро пожаловать!`);
