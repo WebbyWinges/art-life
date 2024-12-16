@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,13 +18,21 @@ type Field = {
   color: string;
 };
 
-export const FormBlock = ({ FormData, onChange }) => {
+type FormBlockProps = {
+  FormData?: Field[];
+  onChange: (data: any) => void;
+};
+
+export const FormBlock: React.FC<FormBlockProps> = ({
+  FormData = [],
+  onChange,
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
   const [headerTextColor, setHeaderTextColor] = useState<string>("#D9D9D9");
   const [backgroundColor, setBackgroundColor] = useState<string>("#D9D9D9");
   const [selectedValue, setSelectedValue] = useState("Телефон");
-  const [fields, setFields] = useState<Field[]>(FormData || []); // Используем пустой массив, если FormData не передан
+  const [fields, setFields] = useState<Field[]>(FormData);
   const [emailOrPhone, setEmailOrPhone] = useState("");
 
   const colorNames = [
@@ -34,7 +42,6 @@ export const FormBlock = ({ FormData, onChange }) => {
   ];
 
   useEffect(() => {
-    // Обновляем состояние формы при изменении данных
     onChange({
       fields,
       selectedValue,
@@ -60,14 +67,6 @@ export const FormBlock = ({ FormData, onChange }) => {
       color: "#D9D9D9",
     };
     setFields([...fields, newField]);
-  };
-
-  const handleIconClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleValueChange = (value: React.SetStateAction<string>) => {
-    setSelectedValue(value);
   };
 
   const handleEditField = (id: number) => {
@@ -114,6 +113,22 @@ export const FormBlock = ({ FormData, onChange }) => {
     );
   };
 
+  const handleEmailOrPhoneChange = (value: string) => {
+    if (selectedValue === "Телефон") {
+      const phoneRegex = /^[0-9]*$/;
+      if (!phoneRegex.test(value)) {
+        console.error("Введите только цифры для номера телефона");
+        return;
+      }
+    } else if (selectedValue === "Email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (value && !emailRegex.test(value)) {
+        console.error("Неверный формат email");
+      }
+    }
+    setEmailOrPhone(value);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <h3>Поля</h3>
@@ -155,14 +170,6 @@ export const FormBlock = ({ FormData, onChange }) => {
                     <input
                       type="color"
                       className="rounded-[10px] !bg-transparent p-0 max-w-[119px] appearance-none absolute top-0 left-0 w-full h-full opacity-0"
-                      style={{
-                        width: "119px",
-                        height: "44px",
-                        border: "none",
-                        outline: "none",
-                        padding: "0",
-                        backgroundColor: "transparent",
-                      }}
                       value={field.color}
                       onChange={e =>
                         handleColorChange(field.id, e.target.value)
@@ -171,18 +178,13 @@ export const FormBlock = ({ FormData, onChange }) => {
                   </div>
                   <div
                     className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
-                    style={{
-                      backgroundColor: field.color,
-                    }}
+                    style={{ backgroundColor: field.color }}
                   />
                 </div>
               </div>
             </div>
           ))}
-          <Button
-            className="   w-[176px] bg-[#10C3EB]"
-            onClick={handleAddField}
-          >
+          <Button className="w-[176px] bg-[#10C3EB]" onClick={handleAddField}>
             Добавить поле
           </Button>
         </div>
@@ -193,7 +195,7 @@ export const FormBlock = ({ FormData, onChange }) => {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="text-[16px] font-normal flex  justify-between w-full"
+              className="text-[16px] font-normal flex justify-between w-full"
             >
               {selectedValue}
               <ChevronDown />
@@ -203,7 +205,7 @@ export const FormBlock = ({ FormData, onChange }) => {
             <DropdownMenuSeparator />
             <DropdownMenuRadioGroup
               value={selectedValue}
-              onValueChange={handleValueChange}
+              onValueChange={setSelectedValue}
             >
               <DropdownMenuRadioItem value="Телефон">
                 Телефон
@@ -218,7 +220,12 @@ export const FormBlock = ({ FormData, onChange }) => {
         <Input
           type="text"
           value={emailOrPhone}
-          onChange={e => setEmailOrPhone(e.target.value)}
+          placeholder={
+            selectedValue === "Телефон"
+              ? "Введите номер телефона"
+              : "Введите email"
+          }
+          onChange={e => handleEmailOrPhoneChange(e.target.value)}
         />
       </div>
     </div>

@@ -197,11 +197,9 @@ const AppTheme = () => {
         </span>
       </div>
 
-      <Link to={"/main/4"}>
-        <Button type="submit" className="bg-[#10C3EB] w-32 mb-3">
-          <span style={{ fontWeight: 400, fontSize: 16 }}>Далее</span>
-        </Button>
-      </Link>
+      <Button type="submit" className="bg-[#10C3EB] w-32 mb-3">
+        <span style={{ fontWeight: 400, fontSize: 16 }}>Далее</span>
+      </Button>
     </form>
   );
 };

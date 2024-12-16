@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,12 +11,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Plus } from "lucide-react";
-import { Link } from "react-router-dom";
 import { TextBlock } from "@/components/fourStepBlocks/textBlock";
 import { PictureBlock } from "@/components/fourStepBlocks/pictureBlock";
 import { FormBlock } from "@/components/fourStepBlocks/formBlock";
 import { PlitMenu } from "@/components/fourStepBlocks/plitMenu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useStore } from "@/store/zustand/store";
 
 const Create = () => {
   const [tabs, setTabs] = useState([
@@ -28,6 +28,7 @@ const Create = () => {
       blocks: [{ id: 0, selectedValue: "Текст" }],
     },
   ]);
+
   const [activeTab, setActiveTab] = useState(tabs[0].name);
 
   const { control, handleSubmit, register, setValue } = useForm({
@@ -36,37 +37,38 @@ const Create = () => {
     },
   });
 
+  const fieldsData = useStore(state => state.fieldsData);
+  const setFieldsData = useStore(state => state.setFieldsData);
+
+  useEffect(() => {
+    setValue("pages", tabs);
+  }, [tabs, setValue]);
+
   const onSubmit = data => {
     console.log("Форма отправлена", data);
   };
 
   const handleValueChange = (tabId, blockId, value) => {
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === tabId
-          ? {
-              ...tab,
-              blocks: tab.blocks.map(block =>
-                block.id === blockId
-                  ? { ...block, selectedValue: value }
-                  : block,
-              ),
-            }
-          : tab,
-      ),
+    const updatedTabs = tabs.map(tab =>
+      tab.id === tabId
+        ? {
+            ...tab,
+            blocks: tab.blocks.map(block =>
+              block.id === blockId ? { ...block, selectedValue: value } : block,
+            ),
+          }
+        : tab,
     );
-
-    // Обновляем форму
-    setValue(`pages[${tabId}].blocks[${blockId}].selectedValue`, value);
+    setTabs(updatedTabs);
+    setValue("pages", updatedTabs);
   };
 
   const handleTabNameChange = (tabId, name) => {
-    setTabs(prevTabs =>
-      prevTabs.map(tab => (tab.id === tabId ? { ...tab, name } : tab)),
+    const updatedTabs = tabs.map(tab =>
+      tab.id === tabId ? { ...tab, name } : tab,
     );
-
-    // Обновляем форму
-    setValue(`pages[${tabId}].name`, name);
+    setTabs(updatedTabs);
+    setValue("pages", updatedTabs);
 
     if (tabId === tabs.find(tab => tab.name === activeTab)?.id) {
       setActiveTab(name);
@@ -74,20 +76,21 @@ const Create = () => {
   };
 
   const addBlock = tabId => {
-    const newBlock = { id: tabs[tabId].blocks.length, selectedValue: "Текст" };
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === tabId
-          ? {
-              ...tab,
-              blocks: [...tab.blocks, newBlock],
-            }
-          : tab,
-      ),
+    const newBlock = {
+      id: tabs[tabId].blocks.length,
+      selectedValue: "Текст",
+      fields: fieldsData,
+    };
+    const updatedTabs = tabs.map(tab =>
+      tab.id === tabId
+        ? {
+            ...tab,
+            blocks: [...tab.blocks, newBlock],
+          }
+        : tab,
     );
-
-    // Обновляем форму
-    setValue(`pages[${tabId}].blocks`, [...tabs[tabId].blocks, newBlock]);
+    setTabs(updatedTabs);
+    setValue("pages", updatedTabs);
   };
 
   const addTab = () => {
@@ -99,11 +102,9 @@ const Create = () => {
       showInMenu: false,
       blocks: [{ id: 0, selectedValue: "Текст" }],
     };
-    setTabs(prevTabs => [...prevTabs, newTab]);
-
-    // Обновляем форму
-    setValue(`pages`, [...tabs, newTab]);
-
+    const updatedTabs = [...tabs, newTab];
+    setTabs(updatedTabs);
+    setValue("pages", updatedTabs);
     setActiveTab(newTab.name);
   };
 
@@ -234,10 +235,16 @@ const Create = () => {
                     )}
                     {block.selectedValue === "Форма" && (
                       <FormBlock
-                        FormData={block.fields}
-                        onChange={data =>
-                          setValue(`pages[${tab.id}].blocks[${block.id}]`, data)
-                        }
+                        FormData={block.fields || []} // Передаем массив `fields` из блока
+                        onChange={data => {
+                          setValue(
+                            `pages[${tab.id}].blocks[${block.id}]`,
+                            data,
+                          );
+                          useStore
+                            .getState()
+                            .updateBlockFields(tab.id, block.id, data.fields); // Обновление в Zustand
+                        }}
                       />
                     )}
                   </div>
