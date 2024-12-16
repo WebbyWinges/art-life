@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -23,12 +23,24 @@ const Create = () => {
     {
       id: 0,
       name: "Основная страница",
+      showTitle: false,
+      showInMenu: false,
       blocks: [{ id: 0, selectedValue: "Текст" }],
     },
   ]);
-  const [activeTab, setActiveTab] = useState(tabs[0].name); // Состояние для активного таба
+  const [activeTab, setActiveTab] = useState(tabs[0].name);
 
-  const handleValueChange = (tabId: number, blockId: number, value: string) => {
+  const { control, handleSubmit, register, setValue } = useForm({
+    defaultValues: {
+      pages: tabs,
+    },
+  });
+
+  const onSubmit = data => {
+    console.log("Форма отправлена", data);
+  };
+
+  const handleValueChange = (tabId, blockId, value) => {
     setTabs(prevTabs =>
       prevTabs.map(tab =>
         tab.id === tabId
@@ -43,32 +55,39 @@ const Create = () => {
           : tab,
       ),
     );
+
+    // Обновляем форму
+    setValue(`pages[${tabId}].blocks[${blockId}].selectedValue`, value);
   };
 
-  const handleTabNameChange = (tabId: number, name: string) => {
+  const handleTabNameChange = (tabId, name) => {
     setTabs(prevTabs =>
       prevTabs.map(tab => (tab.id === tabId ? { ...tab, name } : tab)),
     );
-    // Если изменяется название активного таба, синхронизируем его
+
+    // Обновляем форму
+    setValue(`pages[${tabId}].name`, name);
+
     if (tabId === tabs.find(tab => tab.name === activeTab)?.id) {
       setActiveTab(name);
     }
   };
 
-  const addBlock = (tabId: number) => {
+  const addBlock = tabId => {
+    const newBlock = { id: tabs[tabId].blocks.length, selectedValue: "Текст" };
     setTabs(prevTabs =>
       prevTabs.map(tab =>
         tab.id === tabId
           ? {
               ...tab,
-              blocks: [
-                ...tab.blocks,
-                { id: tab.blocks.length, selectedValue: "Текст" },
-              ],
+              blocks: [...tab.blocks, newBlock],
             }
           : tab,
       ),
     );
+
+    // Обновляем форму
+    setValue(`pages[${tabId}].blocks`, [...tabs[tabId].blocks, newBlock]);
   };
 
   const addTab = () => {
@@ -76,10 +95,16 @@ const Create = () => {
     const newTab = {
       id: newTabId,
       name: `Новая страница ${newTabId}`,
+      showTitle: false,
+      showInMenu: false,
       blocks: [{ id: 0, selectedValue: "Текст" }],
     };
     setTabs(prevTabs => [...prevTabs, newTab]);
-    setActiveTab(newTab.name); // Устанавливаем новый таб активным
+
+    // Обновляем форму
+    setValue(`pages`, [...tabs, newTab]);
+
+    setActiveTab(newTab.name);
   };
 
   return (
@@ -88,7 +113,10 @@ const Create = () => {
         Создание структуры и контента
       </span>
       <span style={{ fontWeight: 600, fontSize: 20 }}>Страницы меню</span>
-      <div className="flex flex-col gap-5 bg-white rounded-3xl p-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-5 bg-white rounded-3xl p-4"
+      >
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="flex overflow-x-auto overflow-y-hidden gap-[40px] relative justify-start mb-10">
             {tabs.map(tab => (
@@ -107,18 +135,33 @@ const Create = () => {
               <div className="flex flex-col gap-3 mb-5">
                 <span>Название страницы</span>
                 <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-                  <Input
-                    type="text"
-                    value={tab.name}
-                    onChange={e => handleTabNameChange(tab.id, e.target.value)}
+                  <Controller
+                    name={`pages[${tab.id}].name`}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        type="text"
+                        value={tab.name}
+                        onChange={e =>
+                          handleTabNameChange(tab.id, e.target.value)
+                        }
+                      />
+                    )}
                   />
                 </div>
                 <div>
-                  <input type="checkbox" />{" "}
+                  <input
+                    type="checkbox"
+                    {...register(`pages[${tab.id}].showTitle`)}
+                  />{" "}
                   <span>Показать название страницы в шапке</span>
                 </div>
                 <div>
-                  <input type="checkbox" />{" "}
+                  <input
+                    type="checkbox"
+                    {...register(`pages[${tab.id}].showInMenu`)}
+                  />{" "}
                   <span>Не показывать страницу в меню</span>
                 </div>
               </div>
@@ -165,10 +208,38 @@ const Create = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-                    {block.selectedValue === "Текст" && <TextBlock />}
-                    {block.selectedValue === "Изображение" && <PictureBlock />}
-                    {block.selectedValue === "Плиточное меню" && <PlitMenu />}
-                    {block.selectedValue === "Форма" && <FormBlock />}
+                    {block.selectedValue === "Текст" && (
+                      <TextBlock
+                        TextData={block}
+                        onChange={data =>
+                          setValue(`pages[${tab.id}].blocks[${block.id}]`, data)
+                        }
+                      />
+                    )}
+                    {block.selectedValue === "Изображение" && (
+                      <PictureBlock
+                        PictureData={block}
+                        onChange={data =>
+                          setValue(`pages[${tab.id}].blocks[${block.id}]`, data)
+                        }
+                      />
+                    )}
+                    {block.selectedValue === "Плиточное меню" && (
+                      <PlitMenu
+                        PlitData={block}
+                        onChange={data =>
+                          setValue(`pages[${tab.id}].blocks[${block.id}]`, data)
+                        }
+                      />
+                    )}
+                    {block.selectedValue === "Форма" && (
+                      <FormBlock
+                        FormData={block.fields}
+                        onChange={data =>
+                          setValue(`pages[${tab.id}].blocks[${block.id}]`, data)
+                        }
+                      />
+                    )}
                   </div>
                 ))}
                 <Button
@@ -181,14 +252,17 @@ const Create = () => {
             </TabsContent>
           ))}
         </Tabs>
-      </div>
 
-      <Link to={"/main/5"}>
-        <Button className="bg-[#10C3EB] w-32 mb-3">
-          <span style={{ fontWeight: 400, fontSize: 16 }}>Далее</span>
+        <Button type="submit" className="bg-[#10C3EB] w-32 mb-3">
+          <span style={{ fontWeight: 400, fontSize: 16 }}>Сохранить</span>
         </Button>
-      </Link>
+      </form>
+
+      <Button className="bg-[#10C3EB] w-32 mb-3">
+        <span style={{ fontWeight: 400, fontSize: 16 }}>Далее</span>
+      </Button>
     </div>
   );
 };
+
 export default Create;

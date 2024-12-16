@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef, useState } from "react";
+import { KeyboardEvent, useRef, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { ChevronDown } from "lucide-react";
 
 type Field = {
@@ -19,25 +18,39 @@ type Field = {
   color: string;
 };
 
-export const FormBlock = () => {
+export const FormBlock = ({ FormData, onChange }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
   const [headerTextColor, setHeaderTextColor] = useState<string>("#D9D9D9");
   const [backgroundColor, setBackgroundColor] = useState<string>("#D9D9D9");
   const [selectedValue, setSelectedValue] = useState("Телефон");
-
-  const [fields, setFields] = useState<Field[]>([
-    { id: 1, label: "Имя", isEditing: false, color: "#D9D9D9" },
-    { id: 2, label: "Телефон", isEditing: false, color: "#D9D9D9" },
-    { id: 3, label: "Email", isEditing: false, color: "#D9D9D9" },
-    { id: 4, label: "Комментарий", isEditing: false, color: "#D9D9D9" },
-  ]);
+  const [fields, setFields] = useState<Field[]>(FormData || []); // Используем пустой массив, если FormData не передан
+  const [emailOrPhone, setEmailOrPhone] = useState("");
 
   const colorNames = [
     "Цвет наименования полей",
     "Цвет кнопки отправить",
     "Цвет текста кнопки",
   ];
+
+  useEffect(() => {
+    // Обновляем состояние формы при изменении данных
+    onChange({
+      fields,
+      selectedValue,
+      headerColor,
+      headerTextColor,
+      backgroundColor,
+      emailOrPhone,
+    });
+  }, [
+    fields,
+    selectedValue,
+    headerColor,
+    headerTextColor,
+    backgroundColor,
+    emailOrPhone,
+  ]);
 
   const handleAddField = () => {
     const newField: Field = {
@@ -202,7 +215,11 @@ export const FormBlock = () => {
       </div>
       <span>Номер телефона/Email</span>
       <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-        <Input type="text" />
+        <Input
+          type="text"
+          value={emailOrPhone}
+          onChange={e => setEmailOrPhone(e.target.value)}
+        />
       </div>
     </div>
   );

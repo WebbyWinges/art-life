@@ -19,15 +19,9 @@ const Exemples = () => {
 
       <div className="grid grid-cols-3 gap-10">
         <MainForm text="Создать свой шаблон" icon={i1} />
-        <MainForm text="Продукты питания" icon={i1} />
-        <MainForm text="Продукты питания" icon={i1} />
-        <MainForm text="Продукты питания" icon={i1} />
-        <MainForm text="Продукты питания" icon={i1} />
-        <MainForm text="Продукты питания" icon={i1} />
       </div>
-
-      <Button className="bg-[#10C3EB] w-32">
-        <Link to={"/main/2"}>
+      <Link to="/main/2">
+        <Button className="bg-[#10C3EB] w-32">
           <span
             style={{
               fontWeight: 400,
@@ -36,8 +30,8 @@ const Exemples = () => {
           >
             Далее
           </span>
-        </Link>
-      </Button>
+        </Button>
+      </Link>
     </div>
   );
 };

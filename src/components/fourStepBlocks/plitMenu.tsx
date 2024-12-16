@@ -12,37 +12,44 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import i1 from "../../assets/image 19.png";
 
-export const PlitMenu = () => {
-  const [selectedNumberValue, setSelectedNumberValue] = useState("1");
-  const [icons, setIcons] = useState<(File | null)[]>([]);
-  const [headerColor, setHeaderColor] = useState<string>("#D9D9D9");
+export const PlitMenu = ({ PlitData, onChange }) => {
+  const [selectedNumberValue, setSelectedNumberValue] = useState(
+    PlitData.selectedNumberValue || "1",
+  );
+  const [icons, setIcons] = useState(PlitData.icons || []);
+  const [headerColor, setHeaderColor] = useState(
+    PlitData.headerColor || "#D9D9D9",
+  );
   const fileInputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
-    // Очищаем ссылки на инпуты при изменении количества плиток
-    fileInputRefs.current = fileInputRefs.current.slice(0, icons.length);
-  }, [icons]);
+    // Обновляем состояние формы при изменении данных
+    onChange({
+      ...PlitData,
+      selectedNumberValue,
+      icons,
+      headerColor,
+    });
+  }, [selectedNumberValue, icons, headerColor]);
 
-  const handleNumberValueChange = (value: React.SetStateAction<string>) => {
+  const handleNumberValueChange = value => {
     setSelectedNumberValue(value);
   };
 
   const handleAddTile = () => {
-    setIcons([...icons, null]); // Добавляем новую плитку с null изображением
+    const updatedIcons = [...icons, null]; // Добавляем новую плитку с null изображением
+    setIcons(updatedIcons);
   };
 
-  const handleIconChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
+  const handleIconChange = (e, index) => {
     if (e.target.files && e.target.files[0]) {
-      const newIcons = [...icons];
-      newIcons[index] = e.target.files[0];
-      setIcons(newIcons);
+      const updatedIcons = [...icons];
+      updatedIcons[index] = e.target.files[0];
+      setIcons(updatedIcons);
     }
   };
 
-  const handleIconClick = (index: number) => {
+  const handleIconClick = index => {
     fileInputRefs.current[index]?.click();
   };
 
@@ -50,7 +57,7 @@ export const PlitMenu = () => {
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-[90px]">
         <div className="flex flex-row items-center gap-4">
-          <span className="">Количество плиток в строке</span>
+          <span>Количество плиток в строке</span>
           <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-4 py-1 w-[80px]">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -114,46 +121,34 @@ export const PlitMenu = () => {
       <h3>Наполнение</h3>
       <div className="flex flex-wrap gap-4">
         {icons.map((icon, index) => (
-          <div key={index} className="flex flex-col gap-4 w-[210px]">
-            <span>Изображение</span>
-            <div className="relative max-w-[150px] rounded-[10px] border-[2px] border-b-[#d9d9d900] border-[#D9D9D9]">
-              <div className="flex justify-center items-center w-[150px] h-[150px] border-none outline-none">
-                {icon ? (
-                  <div className="pr-[4px] pb-[20px] rounded-[10px]">
-                    <img
-                      className="max-h-[130px]"
-                      src={URL.createObjectURL(icon)}
-                      alt="Uploaded Icon"
-                    />
-                  </div>
-                ) : (
-                  <div className="p-[24px] pb-[44px]">
-                    <img src={i1} alt="Default Icon" />
-                  </div>
-                )}
-              </div>
-              <Input
-                className="hidden"
-                type="file"
-                ref={el => (fileInputRefs.current[index] = el)}
-                onChange={e => handleIconChange(e, index)}
-                accept="image/*"
-              />
-              <Button
-                className="absolute bottom-[-10px] w-full bg-[#10C3EB]"
-                onClick={() => handleIconClick(index)}
-              >
-                Загрузить
-              </Button>
+          <div
+            key={index}
+            className="relative max-w-[150px] rounded-[10px] border-[2px] border-[#D9D9D9]"
+          >
+            <div className="flex justify-center items-center w-[150px] h-[150px]">
+              {icon ? (
+                <img
+                  className="max-h-[130px] rounded-[10px]"
+                  src={URL.createObjectURL(icon)}
+                  alt="Uploaded Icon"
+                />
+              ) : (
+                <img src={i1} alt="Default Icon" />
+              )}
             </div>
-            <span>Подпись</span>
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input type="text" />
-            </div>
-            <span>Переход при нажатии</span>
-            <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9]">
-              <Input type="text" />
-            </div>
+            <Input
+              className="hidden"
+              type="file"
+              ref={el => (fileInputRefs.current[index] = el)}
+              onChange={e => handleIconChange(e, index)}
+              accept="image/*"
+            />
+            <Button
+              className="absolute bottom-[-10px] w-full bg-[#10C3EB]"
+              onClick={() => handleIconClick(index)}
+            >
+              Загрузить
+            </Button>
           </div>
         ))}
       </div>
