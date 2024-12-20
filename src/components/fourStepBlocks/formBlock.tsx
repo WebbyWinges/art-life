@@ -165,20 +165,26 @@ export const FormBlock: React.FC<FormBlockProps> = ({
                 >
                   {index < 3 ? colorNames[index] : "Цвет поля"}
                 </span>
-                <div className="flex flex-row justify-between w-[130px]">
-                  <div className="relative">
-                    <input
-                      type="color"
-                      className="rounded-[10px] !bg-transparent p-0 max-w-[119px] appearance-none absolute top-0 left-0 w-full h-full opacity-0"
-                      value={field.color}
-                      onChange={e =>
-                        handleColorChange(field.id, e.target.value)
-                      }
-                    />
-                  </div>
+                <div className="relative">
+                  <input
+                    type="color"
+                    className="rounded-[10px] !bg-transparent p-0 max-w-[119px] appearance-none absolute top-0 left-0 w-full h-full opacity-0"
+                    style={{
+                      width: "119px",
+                      height: "44px",
+                      border: "none",
+                      outline: "none",
+                      padding: "0",
+                      backgroundColor: "transparent",
+                    }}
+                    value={field.color}
+                    onChange={e => handleColorChange(field.id, e.target.value)}
+                  />
                   <div
                     className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
-                    style={{ backgroundColor: field.color }}
+                    style={{
+                      backgroundColor: field.color,
+                    }}
                   />
                 </div>
               </div>

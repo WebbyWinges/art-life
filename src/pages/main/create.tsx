@@ -211,7 +211,7 @@ const Create = () => {
                     </div>
                     {block.selectedValue === "Текст" && (
                       <TextBlock
-                        TextData={block}
+                        TextData={block.field}
                         onChange={data =>
                           setValue(`pages[${tab.id}].blocks[${block.id}]`, data)
                         }
@@ -264,10 +264,11 @@ const Create = () => {
           <span style={{ fontWeight: 400, fontSize: 16 }}>Сохранить</span>
         </Button>
       </form>
-
-      <Button className="bg-[#10C3EB] w-32 mb-3">
-        <span style={{ fontWeight: 400, fontSize: 16 }}>Далее</span>
-      </Button>
+      <a href="/main/5">
+        <Button className="bg-[#10C3EB] w-32 mb-3">
+          <span style={{ fontWeight: 400, fontSize: 16 }}>Далее</span>
+        </Button>
+      </a>
     </div>
   );
 };

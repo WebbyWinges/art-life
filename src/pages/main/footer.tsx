@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LoadPic } from "@/components/ui/loadPic";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { debounce } from "lodash";
 
 const FooterSettings: React.FC = () => {
   const { control, handleSubmit, setValue, watch } = useForm({
@@ -55,9 +56,9 @@ const FooterSettings: React.FC = () => {
     setActiveTab(newTab.label);
   };
 
-  const handleTabNameChange = (index: number, name: string) => {
+  const handleTabNameChange = (index: number, value: string) => {
     const updatedTabs = tabs.map((tab, i) =>
-      i === index ? { ...tab, label: name } : tab,
+      i === index ? { ...tab, label: value } : tab,
     );
     setValue("buttons", updatedTabs);
   };
@@ -73,6 +74,13 @@ const FooterSettings: React.FC = () => {
     console.log("Received form data:", data);
   };
 
+  // Предотвращаем отправку формы при нажатии Enter в полях ввода
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <span style={{ fontWeight: 600, fontSize: 30 }}>
@@ -80,7 +88,7 @@ const FooterSettings: React.FC = () => {
       </span>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center mb-4">
           <Controller
             name="removeBottomPanel"
             control={control}
@@ -98,7 +106,7 @@ const FooterSettings: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex flex-row gap-3 items-center">
+        <div className="flex flex-row gap-3 items-center mb-2">
           <span style={{ fontWeight: 400, fontSize: 16 }}>Цвет панели</span>
           <div className="relative">
             <Controller
@@ -175,6 +183,7 @@ const FooterSettings: React.FC = () => {
                       type="text"
                       value={tab.label}
                       onChange={e => handleTabNameChange(index, e.target.value)}
+                      onKeyDown={handleInputKeyDown} // Предотвращаем отправку формы при Enter
                     />
                   </div>
 
@@ -224,6 +233,7 @@ const FooterSettings: React.FC = () => {
                           onChange={e =>
                             handleTabValueChange(index, "label", e.target.value)
                           }
+                          onKeyDown={handleInputKeyDown} // Предотвращаем отправку формы при Enter
                         />
                       </div>
                       <h3>Страница перехода</h3>
@@ -238,6 +248,7 @@ const FooterSettings: React.FC = () => {
                               e.target.value,
                             )
                           }
+                          onKeyDown={handleInputKeyDown} // Предотвращаем отправку формы при Enter
                         />
                       </div>
                     </>
@@ -257,6 +268,7 @@ const FooterSettings: React.FC = () => {
                                 e.target.value,
                               )
                             }
+                            onKeyDown={handleInputKeyDown} // Предотвращаем отправку формы при Enter
                           />
                         </div>
                         <p className="text-[11px]">
@@ -272,6 +284,7 @@ const FooterSettings: React.FC = () => {
                           onChange={e =>
                             handleTabValueChange(index, "label", e.target.value)
                           }
+                          onKeyDown={handleInputKeyDown} // Предотвращаем отправку формы при Enter
                         />
                       </div>
                     </>

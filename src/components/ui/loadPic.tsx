@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { X } from "lucide-react";
 
 export const LoadPic = ({ pictureData, onChange }) => {
   const [icon, setIcon] = useState<File | null>(null);
@@ -70,12 +71,7 @@ export const LoadPic = ({ pictureData, onChange }) => {
         Загрузить
       </Button>
       {icon && (
-        <Button
-          className="absolute top-[-10px] right-[-10px] bg-red-500"
-          onClick={removeImage}
-        >
-          Удалить
-        </Button>
+        <X className="absolute top-[0px] right-[0px] " onClick={removeImage} />
       )}
     </div>
   );
