@@ -72,8 +72,20 @@ export const FormBlock: React.FC<FormBlockProps> = ({
     }
   };
 
+  const handleColorChange = (id: number, newColor: string) => {
+    setFields(
+      fields.map(field =>
+        field.id === id ? { ...field, color: newColor } : field,
+      ),
+    );
+  };
+
+  const handleSetHeaderColor = (newColor: string) => {
+    setHeaderColor(newColor); // Устанавливаем цвет заголовка
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 ">
       <h3>Настройка формы</h3>
       <div className="flex flex-col gap-3">
         {Array.isArray(fields) &&
@@ -101,25 +113,30 @@ export const FormBlock: React.FC<FormBlockProps> = ({
                   {field.label}
                 </span>
               )}
-              <input
-                type="color"
-                value={field.color}
-                onChange={e =>
-                  setFields(
-                    fields.map(f =>
-                      f.id === field.id ? { ...f, color: e.target.value } : f,
-                    ),
-                  )
-                }
-              />
+              <div className="relative">
+                <input
+                  className="absolute top-0 left-0 w-full h-full opacity-0"
+                  type="color"
+                  value={field.color}
+                  onChange={e => handleColorChange(field.id, e.target.value)} // Используем отдельный обработчик для цвета
+                />
+                <div
+                  className="rounded-[10px] w-[119px] h-[44px] border border-gray-300"
+                  style={{ backgroundColor: field.color }} // Убедитесь, что используется field.color\
+                  onClick={() => handleSetHeaderColor(field.color)}
+                />
+              </div>
             </div>
           ))}
-        <Button onClick={handleAddField}>Добавить поле</Button>
+        <Button className="max-w-[200px] w-full" onClick={handleAddField}>
+          Добавить поле
+        </Button>
       </div>
-      <div>
-        <h4>Настройки отправки</h4>
+      <div className="flex flex-col gap-3 mb-6">
+        <h4>Отправить ответы</h4>
         <select
           value={selectedValue}
+          className="w-full border border-[#D9D9D9] rounded-[10px] px-4 py-3"
           onChange={e =>
             setSelectedValue(e.target.value as "Телефон" | "Email")
           }
@@ -128,6 +145,7 @@ export const FormBlock: React.FC<FormBlockProps> = ({
           <option value="Email">Email</option>
         </select>
         <Input
+          className="w-full !ring-1 !ring-[#D9D9D9] !rounded-[10px] !px-4 !py-3"
           type="text"
           value={emailOrPhone}
           placeholder={

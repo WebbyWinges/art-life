@@ -78,12 +78,15 @@ const Create: React.FC = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 w-full">
       <h1 className="text-2xl font-bold">Создание структуры и контента</h1>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <h2 className="text-lg font-semibold">Страницы меню</h2>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 bg-white rounded-xl px-5 py-4 max-w-[780px] w-full"
+      >
         <Tabs>
-          <TabsList>
+          <TabsList className="flex flex-row gap-4 justify-start">
             {pages.map((page, index) => (
               <TabsTrigger key={page.id} value={page.id}>
                 {page.name}
@@ -102,14 +105,14 @@ const Create: React.FC = () => {
                     <Input {...field} placeholder="Название страницы" />
                   )}
                 />
-                <div>
+                <div className="flex gap-2">
                   <input
                     type="checkbox"
                     {...register(`pages.${pageIndex}.showTitle` as const)}
                   />
                   <label>Показывать название</label>
                 </div>
-                <div>
+                <div className="flex gap-2">
                   <input
                     type="checkbox"
                     {...register(`pages.${pageIndex}.showInMenu` as const)}
@@ -117,13 +120,20 @@ const Create: React.FC = () => {
                   <label>Показывать в меню</label>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 ">
                   <h3 className="text-lg font-semibold">Блоки</h3>
                   {page.blocks.map((block, blockIndex) => (
-                    <div key={block.id} className="space-y-2">
+                    <div
+                      key={block.id}
+                      className="space-y-2 flex flex-col gap-3 border-b-2 border-solid border-[#D9D9D9] w-full"
+                    >
+                      <h4>Тип блока:</h4>
+
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button>{block.type}</Button>
+                          <Button className="w-full max-w-[200px]">
+                            {block.type}
+                          </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuRadioGroup
@@ -157,7 +167,11 @@ const Create: React.FC = () => {
                           }
                           control={control}
                           render={({ field }) => (
-                            <Input {...field} placeholder="Текст блока" />
+                            <Input
+                              className="!w-full !ring-1 !ring-[#D9D9D9] !rounded-[10px] !px-4 !py-3 "
+                              {...field}
+                              placeholder="Текст блока"
+                            />
                           )}
                         />
                       )}
@@ -208,7 +222,10 @@ const Create: React.FC = () => {
                     </div>
                   ))}
 
-                  <Button onClick={() => addBlock(pageIndex)}>
+                  <Button
+                    className="max-w-[200px] w-full"
+                    onClick={() => addBlock(pageIndex)}
+                  >
                     Добавить блок
                   </Button>
                 </div>

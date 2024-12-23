@@ -46,7 +46,7 @@ export const PlitMenu = ({ PlitData, onChange }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 ">
       <div className="flex flex-row items-center gap-[90px]">
         <div className="flex flex-row items-center gap-4">
           <span>Количество плиток в строке</span>
@@ -111,7 +111,7 @@ export const PlitMenu = ({ PlitData, onChange }) => {
         </div>
       </div>
       <h3>Наполнение</h3>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-[36px]">
         {icons.map((icon, index) => (
           <ImageInput
             key={index}
@@ -121,7 +121,7 @@ export const PlitMenu = ({ PlitData, onChange }) => {
           />
         ))}
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full mb-6">
         <Button
           disabled={icons.length >= 9}
           className="w-[215px] bg-[#10C3EB]"

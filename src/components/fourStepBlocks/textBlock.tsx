@@ -13,12 +13,12 @@ export const TextBlock: React.FC<TextBlockProps> = ({ TextData, onChange }) => {
   return (
     <div className="">
       <h3>Наполнение</h3>
-      <div className="border-2 border-solid rounded-[10px] border-[#d9d9d9] flex gap-4 px-4 py-3">
+      <div className="!w-full !ring-1 !ring-[#D9D9D9] !rounded-[10px] !px-4 !py-3">
         <input
           type="text"
           value={TextData} // Устанавливаем значение из TextData
           onChange={handleChange} // Обработчик изменения текста
-          className="flex-1" // Растягиваем input на всю доступную ширину
+          className="flex-1 !w-full !ring-1 !ring-[#D9D9D9] !rounded-[10px] !px-4 !py-3" // Растягиваем input на всю доступную ширину
           placeholder="Введите текст"
         />
       </div>
