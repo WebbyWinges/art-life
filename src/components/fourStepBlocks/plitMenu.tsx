@@ -8,9 +8,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { Input } from "../ui/input";
-import i1 from "../../assets/image 19.png";
+import { useEffect, useState } from "react";
+import { ImageInput } from "../shared/Input/ImageInput";
 
 export const PlitMenu = ({ PlitData, onChange }) => {
   const [selectedNumberValue, setSelectedNumberValue] = useState(
@@ -20,7 +19,6 @@ export const PlitMenu = ({ PlitData, onChange }) => {
   const [headerColor, setHeaderColor] = useState(
     PlitData.headerColor || "#D9D9D9",
   );
-  const fileInputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
     // Обновляем состояние формы при изменении данных
@@ -41,16 +39,10 @@ export const PlitMenu = ({ PlitData, onChange }) => {
     setIcons(updatedIcons);
   };
 
-  const handleIconChange = (e, index) => {
-    if (e.target.files && e.target.files[0]) {
-      const updatedIcons = [...icons];
-      updatedIcons[index] = e.target.files[0];
-      setIcons(updatedIcons);
-    }
-  };
-
-  const handleIconClick = index => {
-    fileInputRefs.current[index]?.click();
+  const handleIconChange = (file, index) => {
+    const updatedIcons = [...icons];
+    updatedIcons[index] = file;
+    setIcons(updatedIcons);
   };
 
   return (
@@ -121,35 +113,12 @@ export const PlitMenu = ({ PlitData, onChange }) => {
       <h3>Наполнение</h3>
       <div className="flex flex-wrap gap-4">
         {icons.map((icon, index) => (
-          <div
+          <ImageInput
             key={index}
-            className="relative max-w-[150px] rounded-[10px] border-[2px] border-[#D9D9D9]"
-          >
-            <div className="flex justify-center items-center w-[150px] h-[150px]">
-              {icon ? (
-                <img
-                  className="max-h-[130px] rounded-[10px]"
-                  src={URL.createObjectURL(icon)}
-                  alt="Uploaded Icon"
-                />
-              ) : (
-                <img src={i1} alt="Default Icon" />
-              )}
-            </div>
-            <Input
-              className="hidden"
-              type="file"
-              ref={el => (fileInputRefs.current[index] = el)}
-              onChange={e => handleIconChange(e, index)}
-              accept="image/*"
-            />
-            <Button
-              className="absolute bottom-[-10px] w-full bg-[#10C3EB]"
-              onClick={() => handleIconClick(index)}
-            >
-              Загрузить
-            </Button>
-          </div>
+            icon={icon}
+            onIconChange={file => handleIconChange(file, index)}
+            defaultImage="Нет изображения"
+          />
         ))}
       </div>
       <div className="flex justify-center w-full">

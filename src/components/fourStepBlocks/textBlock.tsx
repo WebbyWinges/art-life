@@ -1,5 +1,12 @@
-export const TextBlock = ({ TextData, onChange }) => {
-  const handleChange = event => {
+import React from "react";
+
+interface TextBlockProps {
+  TextData: string; // Текстовые данные (строка)
+  onChange: (value: string) => void; // Функция для обновления данных
+}
+
+export const TextBlock: React.FC<TextBlockProps> = ({ TextData, onChange }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value); // Передаем значение текста в функцию onChange
   };
 

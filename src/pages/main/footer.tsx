@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LoadPic } from "@/components/ui/loadPic";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { debounce } from "lodash";
 
 const FooterSettings: React.FC = () => {
   const { control, handleSubmit, setValue, watch } = useForm({

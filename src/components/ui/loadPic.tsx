@@ -3,8 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 
-export const LoadPic = ({ pictureData, onChange }) => {
-  const [icon, setIcon] = useState<File | null>(null);
+interface LoadPicProps {
+  pictureData: {
+    image?: File | null; // Текущее изображение
+    defaultImage?: string; // URL изображения по умолчанию
+  };
+  onChange: (data: { image: File | null }) => void; // Функция для обновления данных
+}
+
+export const LoadPic: React.FC<LoadPicProps> = ({ pictureData, onChange }) => {
+  const [icon, setIcon] = useState<File | null>(pictureData.image || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +27,7 @@ export const LoadPic = ({ pictureData, onChange }) => {
         return;
       }
       setIcon(file);
-      onChange({ ...pictureData, image: file });
+      onChange({ image: file }); // Передаем новое изображение
     }
   };
 
@@ -29,7 +37,7 @@ export const LoadPic = ({ pictureData, onChange }) => {
 
   const removeImage = () => {
     setIcon(null);
-    onChange({ ...pictureData, image: null });
+    onChange({ image: null }); // Удаляем изображение
   };
 
   useEffect(() => {
@@ -71,7 +79,10 @@ export const LoadPic = ({ pictureData, onChange }) => {
         Загрузить
       </Button>
       {icon && (
-        <X className="absolute top-[0px] right-[0px] " onClick={removeImage} />
+        <X
+          className="absolute top-[0px] right-[0px] cursor-pointer"
+          onClick={removeImage}
+        />
       )}
     </div>
   );
